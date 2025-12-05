@@ -6,8 +6,8 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/GengWei1997/kernel-
 跟随主线更新到mainline:	6.18.0
 添加ufw缺失的ipv6模块
 
-# 执行完后出现
-
+执行完后出现
+```bash
 11. 显示/boot目录内容
 总计 83932
 drwx------  5 root root     4096  1月  1  1970 .
@@ -28,6 +28,7 @@ drwx------  3 root root     4096 11月 22 21:35 loader
 -rwx------ 1 root root 15M 12月  5 00:03 /boot/linux.efi
 12. 清理下载的内核包
 === 脚本执行完成 ===
+```
 
+重启手机即可
 
-# 重启手机即可
