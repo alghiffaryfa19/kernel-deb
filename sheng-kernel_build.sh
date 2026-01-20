@@ -1,4 +1,3 @@
-cd $1
 #!/bin/bash
 set -e  # 遇到错误立即退出
 
@@ -18,11 +17,12 @@ make -j$(nproc) ARCH=arm64 LLVM=1
 # 获取内核版本号
 _kernel_version="$(make kernelrelease -s)"
 
-chmod +x $1/mkbootimg
+wget https://raw.githubusercontent.com/alghiffaryfa19/ubuntu-xiaomi-elish-enuma-sheng/refs/heads/main/mkbootimg
+chmod +x mkbootimg
 
-cat $1/linux/arch/arm64/boot/Image.gz $1/linux/arch/arm64/boot/dts/qcom/sm8550-xiaomi-sheng.dtb > $1/linux/Image.gz-dtb_sheng
-mv $1/linux/Image.gz-dtb_sheng $1/linux/zImage_sheng
-$1/mkbootimg --kernel zImage_sheng --cmdline "root=PARTLABEL=linux" --base 0x00000000 --kernel_offset 0x00008000 --tags_offset 0x01e00000 --pagesize 4096 --id -o $1/boot_sheng.img
+cat $2/linux/arch/arm64/boot/Image.gz $2/linux/arch/arm64/boot/dts/qcom/sm8550-xiaomi-sheng.dtb > $2/linux/Image.gz-dtb_sheng
+mv $2/linux/Image.gz-dtb_sheng $2/linux/zImage_sheng
+mkbootimg --kernel zImage_sheng --cmdline "root=PARTLABEL=linux" --base 0x00000000 --kernel_offset 0x00008000 --tags_offset 0x01e00000 --pagesize 4096 --id -o $2/boot_sheng.img
 
 
 # 更新 deb 包控制文件中的版本号
