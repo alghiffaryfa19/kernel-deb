@@ -66,7 +66,7 @@ jobs:
           export PATH="/usr/lib/ccache:$PATH"
           
           # 执行内核编译脚本
-          sudo sh sheng-kernel_build.sh ${{ inputs.kernel_version }}
+          sudo sh sheng-kernel_build.sh ${{ inputs.kernel_version }} ${{ github.workspace }}
       
       # 获取准确的内核版本号
       - name: 获取准确内核版本号
