@@ -66,14 +66,14 @@ jobs:
           export PATH="/usr/lib/ccache:$PATH"
           
           # 执行内核编译脚本
-          sudo sh raphael-kernel_build.sh ${{ inputs.kernel_version }}
+          sudo sh sheng-kernel_build.sh ${{ inputs.kernel_version }}
       
       # 获取准确的内核版本号
       - name: 获取准确内核版本号
         id: get-kernel-version
         run: |
           # 从 control 文件中提取准确的内核版本号
-          KERNEL_VERSION=$(grep -oP 'Version:\s*\K.*' linux-xiaomi-raphael/DEBIAN/control)
+          KERNEL_VERSION=$(grep -oP 'Version:\s*\K.*' linux-xiaomi-sheng/DEBIAN/control)
           echo "准确的内核版本号: $KERNEL_VERSION"
           echo "kernel_version=$KERNEL_VERSION" >> $GITHUB_OUTPUT
           
@@ -81,7 +81,7 @@ jobs:
       - name: 获取构建时间
         id: get-timestamp
         run: |
-          echo "timestamp=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+          echo "timestamp=$(TZ='Asia/Jakarta' date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
       
       # 列出编译产物
       - name: 列出编译产物
@@ -110,4 +110,4 @@ jobs:
         with:
           name: kernel-packages-v${{ inputs.kernel_version }}
           path: |
-            linux-xiaomi-raphael.deb
+            linux-xiaomi-sheng.deb
