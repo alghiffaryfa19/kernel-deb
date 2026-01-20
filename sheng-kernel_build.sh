@@ -1,3 +1,4 @@
+cd $1
 #!/bin/bash
 set -e  # 遇到错误立即退出
 
@@ -17,13 +18,12 @@ make -j$(nproc) ARCH=arm64 LLVM=1
 # 获取内核版本号
 _kernel_version="$(make kernelrelease -s)"
 
-# 准备 deb 包目录结构
-mkdir -p ../linux-xiaomi-sheng/boot/dtbs/qcom
+chmod +x $1/mkbootimg
 
-# 复制内核文件
-cp arch/arm64/boot/vmlinuz.efi ../linux-xiaomi-sheng/boot/vmlinuz-$_kernel_version
-cp arch/arm64/boot/dts/qcom/sm8150*.dtb ../linux-xiaomi-sheng/boot/dtbs/qcom
-cp .config ../linux-xiaomi-sheng/boot/config-$_kernel_version
+cat $1/linux/arch/arm64/boot/Image.gz $1/linux/arch/arm64/boot/dts/qcom/sm8550-xiaomi-sheng.dtb > $1/linux/Image.gz-dtb_sheng
+mv $1/linux/Image.gz-dtb_sheng $1/linux/zImage_sheng
+$1/mkbootimg --kernel zImage_sheng --cmdline "root=PARTLABEL=linux" --base 0x00000000 --kernel_offset 0x00008000 --tags_offset 0x01e00000 --pagesize 4096 --id -o $1/boot_sheng.img
+
 
 # 更新 deb 包控制文件中的版本号
 sed -i "s/Version:.*/Version: ${_kernel_version}/" ../linux-xiaomi-sheng/DEBIAN/control
